@@ -20,11 +20,11 @@ client.on('message', message => {
             message.channel.send(messageFunctions.ping());
         } else if (message.content === 'help') {
             message.channel.send(messageFunctions.help());
-        } else if (message.content.indexOf('rank: ') === 0) {
+        } else if (message.content.indexOf('rank ') === 0) {
             messageFunctions.rank(message.content, (response) => {
                 message.channel.send(response);
             });
-        } else if (message.content.indexOf('game: ') === 0) {
+        } else if (message.content.indexOf('game ') === 0) {
             messageFunctions.game(message.content, (response) => {
                 message.channel.send(response);
             });

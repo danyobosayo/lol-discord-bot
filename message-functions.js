@@ -11,6 +11,11 @@ riotApi.getChampions((data) => {
     }
 });
 
+const getSummonerNameFromCommand = (command, commandName) => {
+    const split = command.split(commandName);
+    return split.splice(1, split.length).join(commandName);
+};
+
 const getRankString = (rankedInfo) => {
     if (rankedInfo.errorCode === 400) {
         return 'I could not find that summoner';
@@ -46,23 +51,17 @@ const getTeamString = (team) => {
 };
 
 const getRank = (message, callback) => {
-    const split = message.split('rank: ');
+    const summonerName = getSummonerNameFromCommand(message, 'rank ');
 
-    if (split.length === 2) {
-        riotApi.getSummonerRankByName(split[1], (rankedInfo) => {
-            callback(getRankString(rankedInfo));
-        });
-    }
+    riotApi.getSummonerRankByName(summonerName, (rankedInfo) => {
+        callback(getRankString(rankedInfo));
+    });
 };
 
 const getCurrentGameInfo = (message, callback) => {
-    const split = message.split('game: ');
+    const summonerName = getSummonerNameFromCommand(message, 'game ');
 
-    if (split.length !== 2) {
-        return;
-    }
-
-    riotApi.getCurrentGame(split[1], (currentGame) => {
+    riotApi.getCurrentGame(summonerName, (currentGame) => {
         if (currentGame.errorCode === 404 || !currentGame.participants) {
             callback('That summoner is not currently in a game');
             return;

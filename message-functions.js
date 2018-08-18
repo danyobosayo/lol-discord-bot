@@ -81,7 +81,7 @@ const getCurrentGameInfo = (message, callback) => {
 
                 callback(`${getTeamString(blueTeam)}\n${getTeamString(redTeam)}`);
             } else {
-                riotApi.getSummonerRank(currentGame.participants[summoners.length - 1].summonerId, recursiveCallback);
+                riotApi.getSummonerRank(currentGame.participants[summoners.length].summonerId, recursiveCallback);
             }
         };
 

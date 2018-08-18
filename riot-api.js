@@ -44,7 +44,7 @@ const getSummonerByName = (summonerName, callback) => {
 };
 
 const getChampions = (callback) => {
-    const url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json';
+    const url = 'http://ddragon.leagueoflegends.com/cdn/8.16.1/data/en_US/champion.json';
 
     makeRequest(url, [], callback);
 };

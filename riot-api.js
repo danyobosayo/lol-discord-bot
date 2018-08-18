@@ -14,9 +14,9 @@ const getData = (body, statusCodes, callback) => {
         } else if (statusCodes.length && statusCodes.indexOf(data.status.status_code) !== -1) {
             callback({ errorCode: data.status.status_code });
         }
+    } else {
+        callback(data);
     }
-
-    callback(data)
 }
 
 const makeRequest = (url, statusCodes, callback) => {
@@ -43,19 +43,31 @@ const getSummonerByName = (summonerName, callback) => {
     makeRequest(url, [], callback);
 };
 
+const getChampions = (callback) => {
+    const url = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json';
+
+    makeRequest(url, [], callback);
+};
+
 module.exports = {
     getCurrentGame: (summonerName, callback) => {
         getSummonerByName(summonerName, (summoner) => {
-            if (summoner.errorCode) callback(summoner);
-
-            getCurrentGame(summoner.id, callback);
+            if (summoner.errorCode) {
+                callback(summoner);
+            } else {
+                getCurrentGame(summoner.id, callback);
+            }
         });
     },
-    getSummonerRank: (summonerName, callback) => {
+    getSummonerRankByName: (summonerName, callback) => {
         getSummonerByName(summonerName, (summoner) => {
-            if (summoner.errorCode) callback(summoner);
-
-            getSummonerRank(summoner.id, callback);
+            if (summoner.errorCode) {
+                callback(summoner);
+            } else {
+                getSummonerRank(summoner.id, callback);
+            }
         });
     },
+    getSummonerRank,
+    getChampions,
 };

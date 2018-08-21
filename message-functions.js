@@ -2,13 +2,19 @@ const riotApi = require('./riot-api.js');
 
 const champs = {};
 
-riotApi.getChampions((data) => {
-    data.data;
+riotApi.getVersion((versions) => {
+    if (!versions.length) console.log('no versions found');
 
-    for (let name in data.data) {
-        const champ = data.data[name];
-        champs[champ.key] = champ;
-    }
+    const currentVersion = versions[0];
+
+    riotApi.getChampions(currentVersion, (data) => {
+        data.data;
+
+        for (let name in data.data) {
+            const champ = data.data[name];
+            champs[champ.key] = champ;
+        }
+    });
 });
 
 const getSummonerNameFromCommand = (command, commandName) => {

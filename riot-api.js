@@ -43,11 +43,17 @@ const getSummonerByName = (summonerName, callback) => {
     makeRequest(url, [], callback);
 };
 
-const getChampions = (callback) => {
+const getChampions = (version, callback) => {
     const url = 'http://ddragon.leagueoflegends.com/cdn/8.16.1/data/en_US/champion.json';
 
     makeRequest(url, [], callback);
 };
+
+const getVersion = (callback) => {
+    const url = 'https://ddragon.leagueoflegends.com/api/versions.json';
+
+    makeRequest(url, [], callback);
+}
 
 module.exports = {
     getCurrentGame: (summonerName, callback) => {
@@ -70,4 +76,5 @@ module.exports = {
     },
     getSummonerRank,
     getChampions,
+    getVersion,
 };

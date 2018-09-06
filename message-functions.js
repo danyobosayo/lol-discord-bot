@@ -17,6 +17,15 @@ riotApi.getVersion((versions) => {
     });
 });
 
+const isUnauthenticated = (response, callback) => {
+    const is403 = response.errorCode === 403;
+    if (is403) {
+        callback('The Riot API key has expired');
+    }
+
+    return is403;
+};
+
 const getSummonerNameFromCommand = (command, commandName) => {
     const split = command.split(commandName);
     return split.splice(1, split.length).join(commandName);
@@ -60,6 +69,7 @@ const getRank = (message, callback) => {
     const summonerName = getSummonerNameFromCommand(message, 'rank ');
 
     riotApi.getSummonerRankByName(summonerName, (rankedInfo) => {
+        if (isUnauthenticated(rankedInfo, callback)) return;
         callback(getRankString(rankedInfo));
     });
 };
@@ -68,6 +78,8 @@ const getCurrentGameInfo = (message, callback) => {
     const summonerName = getSummonerNameFromCommand(message, 'game ');
 
     riotApi.getCurrentGame(summonerName, (currentGame) => {
+        if (isUnauthenticated(currentGame, callback)) return;
+
         if (currentGame.errorCode === 404 || !currentGame.participants) {
             callback('That summoner is not currently in a game');
             return;

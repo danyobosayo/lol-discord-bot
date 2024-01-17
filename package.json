@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "discord-interface.js",
   "dependencies": {
-    "discord.js": "^11.4.1",
+    "discord.js": "^14.4.1",
     "request": "^2.88.0"
   }
 }
